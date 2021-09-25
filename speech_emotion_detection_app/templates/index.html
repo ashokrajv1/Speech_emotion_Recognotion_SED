@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Emotion Detection</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+    body {
+        text-align: center;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -180%);
+    }
+    form {
+        position: absolute;
+        top: 150px;
+        left: 230px;
+    }
+    .center {
+        text-align: center;
+        border: 3px solid red;
+        top: 130%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+    }
+    .predict {
+        position: absolute;
+        top: 250px;
+        right: 270px;
+    }
+</style>
+<body>
+    <h1 style="font-weight: bold;">Acoustic intelligence in conversational solutions</h1>
+    <!--<h2 style="color: red; font-weight: bold;">Emotion Detection</h2>-->
+    <br>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <span class="alert-text" style="color: black;">{{ message|capfirst }}</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% if emotion %}
+        <div class = "center"> 
+            <a href="/media/{{ audios.audio_file }}">{{ audios.audio_file }}</a>
+            <h3>PREDICTED EMOTION : {{ emotion }}</h3>
+            <a href = "{% url 'index'%}"> HOME </a>
+        </div>
+    {% else %}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% load crispy_forms_tags %}
+            {{ form|crispy }}
+            <button type="submit" style = "text-align: center;" class="btn btn-primary">EMOTION</button>
+        </form>
+    {% endif %}
+
+</body>
+</html>
